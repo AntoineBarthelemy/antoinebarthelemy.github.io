@@ -541,8 +541,24 @@
     const locations = buildLocations();
     globeState = { locations, selected: null };
 
-    const RINGS = window.LAND_RINGS || [];
     const D2R = Math.PI / 180;
+
+    // Anneaux de terres densifiés une fois (lat/lng) : crée des points intermédiaires
+    // pour que la découpe de l'hémisphère et le suivi du limbe soient précis.
+    function densify(ring) {
+      const out = [], n = ring.length;
+      for (let k = 0; k < n; k += 2) {
+        const lo1 = ring[k], la1 = ring[k + 1];
+        const k2 = (k + 2) % n, lo2 = ring[k2], la2 = ring[k2 + 1];
+        let dlo = lo2 - lo1; if (dlo > 180) dlo -= 360; if (dlo < -180) dlo += 360;
+        const dla = la2 - la1;
+        out.push(lo1, la1);
+        const steps = Math.max(1, Math.ceil(Math.max(Math.abs(dlo), Math.abs(dla)) / 3));
+        for (let s = 1; s < steps; s++) out.push(lo1 + dlo * s / steps, la1 + dla * s / steps);
+      }
+      return out;
+    }
+    const LAND = (window.LAND_RINGS || []).map(densify);
     const TILT0 = 0.32;     // inclinaison de repos (vue légèrement plongeante)
     const ZOOM_IN = 2.4;    // facteur de « plongée » sur un lieu sélectionné
 
@@ -592,7 +608,7 @@
           const t = A.z / (A.z - B.z);
           let ix = A.x + (B.x - A.x) * t, iy = A.y + (B.y - A.y) * t;
           const m = Math.hypot(ix, iy) || 1;
-          out.push({ x: ix / m, y: iy / m, z: 0 });
+          out.push({ x: ix / m, y: iy / m, z: 0, limb: true });
         }
       }
       return out;
@@ -609,17 +625,32 @@
       ctx.fillStyle = og; ctx.fill();
       ctx.clip();
 
-      // terres : encre sombre (bichromie)
+      // terres : encre sombre (bichromie). Entre deux points de coupe, on longe
+      // l'arc du limbe (et non une corde droite) pour ne pas déformer les continents.
       ctx.fillStyle = "#171a30";
-      for (const ring of RINGS) {
+      for (const ring of LAND) {
         const verts = [];
         for (let k = 0; k < ring.length; k += 2) verts.push(toVec(ring[k + 1], ring[k]));
         const clip = clipFront(verts);
         if (clip.length < 3) continue;
         ctx.beginPath();
         ctx.moveTo(sx(clip[0]), sy(clip[0]));
-        for (let j = 1; j < clip.length; j++) ctx.lineTo(sx(clip[j]), sy(clip[j]));
-        ctx.closePath(); ctx.fill();
+        for (let j = 0; j < clip.length; j++) {
+          const a = clip[j], b = clip[(j + 1) % clip.length];
+          if (a.limb && b.limb) {
+            let ta = Math.atan2(a.y, a.x), tb = Math.atan2(b.y, b.x), d = tb - ta;
+            while (d > Math.PI) d -= 2 * Math.PI;
+            while (d < -Math.PI) d += 2 * Math.PI;
+            const m = Math.max(2, Math.ceil(Math.abs(d) / 0.12));
+            for (let s = 1; s <= m; s++) {
+              const th = ta + d * s / m;
+              ctx.lineTo(cx + Math.cos(th) * er, cy - Math.sin(th) * er);
+            }
+          } else {
+            ctx.lineTo(sx(b), sy(b));
+          }
+        }
+        ctx.fill();
       }
 
       // ombrage sphérique : lumière en haut-gauche, ombre sur le limbe bas-droit
