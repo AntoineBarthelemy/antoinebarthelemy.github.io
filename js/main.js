@@ -199,12 +199,12 @@
      ========================================================= */
   let activeFilter = null;
 
-  function toggleFilter(key) {
-    if (activeFilter === key) { clearFilter(); return; }
+  // Applique le filtre : seuls les projets du domaine restent visibles, les autres sont cachés.
+  function setFilter(key) {
     activeFilter = key;
     document.querySelectorAll(".project-card").forEach((p) => {
       const match = p.dataset.competences.split(" ").includes(key);
-      p.classList.toggle("dimmed", !match);
+      p.classList.toggle("hidden", !match);
     });
     syncSolar();
     const reset = document.getElementById("filterReset");
@@ -216,9 +216,14 @@
     reset.hidden = false;
   }
 
+  function toggleFilter(key) {
+    if (activeFilter === key) { clearFilter(); return; }
+    setFilter(key);
+  }
+
   function clearFilter() {
     activeFilter = null;
-    document.querySelectorAll(".project-card").forEach((p) => p.classList.remove("dimmed"));
+    document.querySelectorAll(".project-card").forEach((p) => p.classList.remove("hidden"));
     syncSolar();
     const reset = document.getElementById("filterReset");
     const info = document.getElementById("filterInfo");
@@ -491,6 +496,7 @@
   }
 
   function openWarpSolar(key) {
+    setFilter(key);  // au retour, « Projets sélectionnés » montre déjà les projets du domaine
     openWarpWith(warpDomainHTML(key), {
       solar: true,
       backKey: "skills.back",
