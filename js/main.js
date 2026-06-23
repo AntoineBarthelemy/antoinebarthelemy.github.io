@@ -541,12 +541,19 @@
     const locations = buildLocations();
     globeState = { locations, selected: null };
 
+    const RINGS = window.LAND_RINGS || [];
+    const D2R = Math.PI / 180;
+    const TILT0 = 0.32;     // inclinaison de repos (vue légèrement plongeante)
+    const ZOOM_IN = 2.4;    // facteur de « plongée » sur un lieu sélectionné
+
     let w = 0, h = 0, R = 0, cx = 0, cy = 0, dpr = 1;
     let rot = 0.5;
     let targetRot = null;
+    let tilt = TILT0, targetTilt = TILT0;
+    let zoom = 1, targetZoom = 1;
     let autorotate = !reduce;
-    const tilt = 0.32;
     let hoverIdx = -1;
+    let tick = 0;
 
     function resize() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -557,101 +564,152 @@
       cx = w / 2; cy = h / 2; R = Math.min(w, h) * 0.42;
     }
 
-    function project(latDeg, lngDeg) {
-      const lat = latDeg * Math.PI / 180;
-      const lng = lngDeg * Math.PI / 180 + rot;
+    // lat/lng -> vecteur unitaire orienté (rotation + inclinaison). z = profondeur (>0 = face visible)
+    function toVec(latDeg, lngDeg) {
+      const lat = latDeg * D2R, lng = lngDeg * D2R + rot;
       const x = Math.cos(lat) * Math.sin(lng);
       const y = Math.sin(lat);
       const z = Math.cos(lat) * Math.cos(lng);
-      const y2 = y * Math.cos(tilt) - z * Math.sin(tilt);
-      const z2 = y * Math.sin(tilt) + z * Math.cos(tilt);
-      return { x: cx + x * R, y: cy - y2 * R, z: z2 };
+      return {
+        x: x,
+        y: y * Math.cos(tilt) - z * Math.sin(tilt),
+        z: y * Math.sin(tilt) + z * Math.cos(tilt),
+      };
+    }
+    function sx(v) { return cx + v.x * R * zoom; }
+    function sy(v) { return cy - v.y * R * zoom; }
+
+    // Découpe un anneau contre l'hémisphère visible (plan z>=0), Sutherland-Hodgman.
+    // Les points de coupe sont ramenés sur le limbe pour épouser le bord du globe.
+    function clipFront(verts) {
+      const out = [];
+      const n = verts.length;
+      for (let i = 0; i < n; i++) {
+        const A = verts[i], B = verts[(i + 1) % n];
+        const Ain = A.z >= 0, Bin = B.z >= 0;
+        if (Ain) out.push(A);
+        if (Ain !== Bin) {
+          const t = A.z / (A.z - B.z);
+          let ix = A.x + (B.x - A.x) * t, iy = A.y + (B.y - A.y) * t;
+          const m = Math.hypot(ix, iy) || 1;
+          out.push({ x: ix / m, y: iy / m, z: 0 });
+        }
+      }
+      return out;
     }
 
-    function drawSphere() {
-      ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2);
-      const grd = ctx.createRadialGradient(cx - R * 0.32, cy - R * 0.32, R * 0.15, cx, cy, R);
-      grd.addColorStop(0, "rgba(247,248,252,1)");
-      grd.addColorStop(1, "rgba(231,234,244,1)");
-      ctx.fillStyle = grd; ctx.fill();
-      ctx.strokeStyle = "rgba(11,11,12,0.14)"; ctx.lineWidth = 1; ctx.stroke();
+    function drawEarth() {
+      const er = R * zoom;
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx, cy, er, 0, Math.PI * 2);
+      // océans : surface claire (encre pâle)
+      const og = ctx.createLinearGradient(0, cy - er, 0, cy + er);
+      og.addColorStop(0, "#f4f6fb");
+      og.addColorStop(1, "#e2e6f1");
+      ctx.fillStyle = og; ctx.fill();
+      ctx.clip();
+
+      // terres : encre sombre (bichromie)
+      ctx.fillStyle = "#171a30";
+      for (const ring of RINGS) {
+        const verts = [];
+        for (let k = 0; k < ring.length; k += 2) verts.push(toVec(ring[k + 1], ring[k]));
+        const clip = clipFront(verts);
+        if (clip.length < 3) continue;
+        ctx.beginPath();
+        ctx.moveTo(sx(clip[0]), sy(clip[0]));
+        for (let j = 1; j < clip.length; j++) ctx.lineTo(sx(clip[j]), sy(clip[j]));
+        ctx.closePath(); ctx.fill();
+      }
+
+      // ombrage sphérique : lumière en haut-gauche, ombre sur le limbe bas-droit
+      const sg = ctx.createRadialGradient(cx - er * 0.38, cy - er * 0.38, er * 0.1, cx, cy, er * 1.05);
+      sg.addColorStop(0, "rgba(255,255,255,0.14)");
+      sg.addColorStop(0.55, "rgba(255,255,255,0)");
+      sg.addColorStop(1, "rgba(6,7,15,0.30)");
+      ctx.fillStyle = sg;
+      ctx.beginPath(); ctx.arc(cx, cy, er, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      // halo d'atmosphère cobalt + liseré du limbe
+      ctx.beginPath(); ctx.arc(cx, cy, er, 0, Math.PI * 2);
+      ctx.shadowColor = `rgba(${accent},0.35)`; ctx.shadowBlur = 18;
+      ctx.strokeStyle = `rgba(${accent},0.22)`; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.shadowBlur = 0;
+      ctx.beginPath(); ctx.arc(cx, cy, er, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(11,11,12,0.18)"; ctx.lineWidth = 1; ctx.stroke();
     }
 
-    function strokePath(pts) {
+    function roundRect(x, y, ww, hh, r) {
       ctx.beginPath();
-      let started = false;
-      for (const p of pts) {
-        if (p.z >= 0) {
-          if (!started) { ctx.moveTo(p.x, p.y); started = true; }
-          else ctx.lineTo(p.x, p.y);
-        } else started = false;
-      }
-      ctx.strokeStyle = "rgba(11,11,12,0.10)"; ctx.lineWidth = 1; ctx.stroke();
-    }
-
-    function drawGraticule() {
-      for (let latd = -60; latd <= 60; latd += 30) {
-        const pts = [];
-        for (let a = 0; a <= 360; a += 4) pts.push(project(latd, a));
-        strokePath(pts);
-      }
-      for (let lngd = 0; lngd < 360; lngd += 30) {
-        const pts = [];
-        for (let la = -90; la <= 90; la += 4) pts.push(project(la, lngd));
-        strokePath(pts);
-      }
+      if (ctx.roundRect) ctx.roundRect(x, y, ww, hh, r);
+      else { ctx.moveTo(x + r, y); ctx.arcTo(x + ww, y, x + ww, y + hh, r); ctx.arcTo(x + ww, y + hh, x, y + hh, r); ctx.arcTo(x, y + hh, x, y, r); ctx.arcTo(x, y, x + ww, y, r); ctx.closePath(); }
     }
 
     function drawMarkers() {
       locations.forEach((loc, i) => {
-        const p = project(loc.lat, loc.lng);
-        const front = p.z >= -0.05;
+        const v = toVec(loc.lat, loc.lng);
+        const X = sx(v), Y = sy(v);
+        const front = v.z > -0.02;
+        loc._sx = X; loc._sy = Y; loc._front = front;
+        if (!front) return; // marqueurs de la face cachée : invisibles
+        const depth = Math.max(0, v.z);
         const isGoal = loc.type === "goal";
         const sel = globeState.selected === i;
-        const depth = Math.max(0, p.z);
-        const r = (sel ? 7 : 5) * (0.55 + 0.45 * depth);
-        const col = isGoal ? accent : "11,11,12";
-        loc._sx = p.x; loc._sy = p.y; loc._front = front;
-        if (!front) {
-          ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${col},0.12)`; ctx.fill();
-          return;
-        }
+        const r = (sel ? 6 : 4.5) * (0.6 + 0.4 * depth);
+
+        // halo cobalt (objectif ou sélection), avec pulsation douce
         if (isGoal || sel) {
-          ctx.beginPath(); ctx.arc(p.x, p.y, r + 8, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${accent},0.12)`; ctx.fill();
+          const pulse = reduce ? 0 : (tick % 140) / 140;
+          ctx.beginPath();
+          ctx.arc(X, Y, r + 6 + (reduce ? 0 : pulse * 9), 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${accent},${0.18 * (1 - pulse)})`; ctx.fill();
         }
-        ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${col},${0.5 + 0.5 * depth})`;
-        ctx.shadowColor = `rgba(${accent},0.9)`;
-        ctx.shadowBlur = isGoal ? 16 : 8;
-        ctx.fill(); ctx.shadowBlur = 0;
-        if (isGoal) {
-          ctx.beginPath(); ctx.arc(p.x, p.y, r + 4, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(${accent},0.55)`; ctx.lineWidth = 1.4; ctx.stroke();
+        // point : cobalt (objectif) ou blanc cerclé d'encre (lisible sur terre comme sur mer)
+        ctx.beginPath(); ctx.arc(X, Y, r, 0, Math.PI * 2);
+        if (isGoal || sel) {
+          ctx.fillStyle = `rgba(${accent},${0.65 + 0.35 * depth})`;
+          ctx.shadowColor = `rgba(${accent},0.9)`; ctx.shadowBlur = 12; ctx.fill(); ctx.shadowBlur = 0;
+          ctx.lineWidth = 1.6; ctx.strokeStyle = "rgba(255,255,255,0.95)"; ctx.stroke();
+        } else {
+          ctx.fillStyle = `rgba(255,255,255,${0.85 + 0.15 * depth})`; ctx.fill();
+          ctx.lineWidth = 1.6; ctx.strokeStyle = `rgba(11,11,12,${0.55 + 0.35 * depth})`; ctx.stroke();
         }
-        if (sel || hoverIdx === i || depth > 0.25) {
+
+        // étiquette : pastille claire + texte encre, lisible partout
+        if (sel || hoverIdx === i || isGoal || depth > 0.55) {
           ctx.font = "600 12px 'Space Grotesk', system-ui, sans-serif";
-          ctx.fillStyle = `rgba(11,11,12,${0.45 + 0.55 * depth})`;
-          ctx.textAlign = "left";
-          ctx.fillText(loc.city, p.x + r + 7, p.y + 4);
+          ctx.textAlign = "left"; ctx.textBaseline = "middle";
+          const tw = ctx.measureText(loc.city).width;
+          const px = X + r + 7, py = Y;
+          roundRect(px - 5, py - 10, tw + 12, 20, 10);
+          ctx.fillStyle = "rgba(255,255,255,0.92)"; ctx.fill();
+          ctx.lineWidth = 1; ctx.strokeStyle = "rgba(11,11,12,0.10)"; ctx.stroke();
+          ctx.fillStyle = "rgba(11,11,12,0.92)";
+          ctx.fillText(loc.city, px + 2, py + 0.5);
+          ctx.textBaseline = "alphabetic";
         }
       });
     }
 
     function frame() {
-      if (autorotate) rot += 0.0016;
+      tick++;
+      if (autorotate && targetRot == null) rot += 0.0016;
       if (targetRot != null) {
         rot += (targetRot - rot) * 0.08;
-        if (Math.abs(targetRot - rot) < 0.001) { rot = targetRot; targetRot = null; }
+        if (Math.abs(targetRot - rot) < 0.0008) { rot = targetRot; if (globeState.selected == null) targetRot = null; }
       }
+      tilt += (targetTilt - tilt) * 0.08;
+      zoom += (targetZoom - zoom) * 0.08;
       ctx.clearRect(0, 0, w, h);
-      drawSphere(); drawGraticule(); drawMarkers();
+      drawEarth(); drawMarkers();
       requestAnimationFrame(frame);
     }
 
+    function renderStatic() { ctx.clearRect(0, 0, w, h); drawEarth(); drawMarkers(); }
+
     function hitTest(mx, my) {
-      let best = -1, bd = 20;
+      let best = -1, bd = 22;
       locations.forEach((loc, i) => {
         if (loc._front) {
           const d = Math.hypot(mx - loc._sx, my - loc._sy);
@@ -677,24 +735,31 @@
       canvas.style.cursor = hoverIdx >= 0 ? "pointer" : "grab";
     });
 
+    // Sélection : on recentre le lieu (longitude + latitude) puis on « plonge » dessus.
     function doSelect(i) {
       globeState.selected = i;
       autorotate = false;
-      targetRot = -locations[i].lng * Math.PI / 180;
+      targetRot = -locations[i].lng * D2R;
+      targetTilt = locations[i].lat * D2R;
+      targetZoom = ZOOM_IN;
       renderGlobeUI();
+      if (reduce) { rot = targetRot; tilt = targetTilt; zoom = targetZoom; renderStatic(); }
     }
     function doDeselect() {
       globeState.selected = null;
       autorotate = !reduce;
       targetRot = null;
+      targetTilt = TILT0;
+      targetZoom = 1;
       renderGlobeUI();
+      if (reduce) { tilt = TILT0; zoom = 1; renderStatic(); }
     }
 
     globeState.select = doSelect;
 
     resize();
     renderGlobeUI();
-    if (reduce) { ctx.clearRect(0, 0, w, h); drawSphere(); drawGraticule(); drawMarkers(); }
+    if (reduce) renderStatic();
     else frame();
 
     let rt;
