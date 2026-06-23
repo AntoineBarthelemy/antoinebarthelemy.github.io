@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Antoine Barthélémy — Analyste fonctionnel & Produit. Portfolio." />
+  <title>Antoine Barthélémy — Analyste fonctionnel & Produit</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Curseur custom -->
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+  <!-- Barre de progression scroll -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- HEADER / NAV -->
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-inner">
+      <a href="#hero" class="brand" data-cursor="link">
+        <span class="brand-mark">AB</span>
+        <span class="brand-name">Antoine Barthélémy</span>
+      </a>
+
+      <nav class="nav" id="primaryNav">
+        <a href="#about"        data-i18n="nav.about"    data-cursor="link">À propos</a>
+        <a href="#competences"  data-i18n="nav.skills"   data-cursor="link">Compétences</a>
+        <a href="#projets"      data-i18n="nav.projects" data-cursor="link">Projets</a>
+        <a href="#parcours"     data-i18n="nav.journey"  data-cursor="link">Parcours</a>
+        <a href="#recommandations" data-i18n="nav.reco"  data-cursor="link">Recommandations</a>
+        <a href="#contact"      data-i18n="nav.contact"  data-cursor="link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="lang-toggle" id="langToggle" data-cursor="link" aria-label="Changer de langue">
+          <span class="lang-opt is-active" data-lang="fr">FR</span>
+          <span class="lang-sep">/</span>
+          <span class="lang-opt" data-lang="en">EN</span>
+        </button>
+        <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="hero" class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="blob"></div>
+        <div class="grid-overlay"></div>
+        <canvas class="hero-canvas" id="heroCanvas"></canvas>
+      </div>
+
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <span class="status-badge reveal" data-cursor="link">
+            <span class="status-dot"></span>
+            <span data-i18n="hero.status">Disponible pour une alternance · Sept. 2026</span>
+          </span>
+
+          <h1 class="hero-title reveal">
+            <span class="line" data-i18n="hero.name">Antoine Barthélémy</span>
+          </h1>
+
+          <p class="hero-role reveal" data-i18n="hero.role">Analyste fonctionnel &amp; Produit</p>
+
+          <p class="hero-tagline reveal" data-i18n="hero.tagline">
+            Je traduis les besoins métier en solutions logicielles claires, optimisées et utiles.
+          </p>
+
+          <div class="hero-cta reveal">
+            <a href="#projets" class="btn btn-primary" data-cursor="link" data-i18n="hero.cta_projects">Voir les projets</a>
+            <a href="#contact" class="btn btn-ghost" data-cursor="link" data-i18n="hero.cta_contact">Me contacter</a>
+            <a href="assets/documents/cv-antoine-barthelemy.pdf" class="btn btn-link" download data-cursor="link" data-i18n="hero.cta_cv">Télécharger le CV ↓</a>
+          </div>
+        </div>
+
+        <div class="hero-photo reveal">
+          <div class="photo-frame">
+            <img id="heroPhoto" src="assets/images/profile-antoine.jpg" alt="Antoine Barthélémy" />
+            <div class="photo-fallback"><span>AB</span><small data-i18n="hero.photo_hint">Dépose ta photo : assets/images/photo.jpg</small></div>
+          </div>
+        </div>
+      </div>
+
+      <a href="#about" class="scroll-cue" data-cursor="link" aria-hidden="true">
+        <span data-i18n="hero.scroll">Défiler</span>
+        <span class="scroll-line"></span>
+      </a>
+    </section>
+
+    <!-- À PROPOS -->
+    <section id="about" class="section about">
+      <div class="container">
+        <p class="section-kicker reveal"><span class="num">01</span> <span data-i18n="nav.about">À propos</span></p>
+        <div class="about-grid">
+          <h2 class="section-title reveal" data-i18n="about.title">Concevoir avant de coder.</h2>
+          <div class="about-body">
+            <p class="reveal" data-i18n="about.p1">
+              Passionné d'informatique depuis le collège, je construis mes compétences sur deux axes complémentaires :
+              la formation (les fondements théoriques) et l'expérience de terrain (la pratique). C'est cette combinaison
+              qui me permet de transformer un besoin flou en une solution claire et durable.
+            </p>
+            <p class="reveal" data-i18n="about.p2">
+              Mon objectif : devenir expert dans mon domaine. Après mon diplôme, je souhaite travailler un an aux
+              États-Unis dans le secteur de l'informatique, puis poursuivre en école d'ingénieur.
+            </p>
+            <p class="reveal" data-i18n="about.p3">
+              Ce qui me définit, c'est la curiosité et l'envie de grandir au contact des autres : découvrir de nouvelles façons de penser, de nouveaux environnements de travail, de nouvelles cultures. C'est pour cela que je tourne ma carrière vers l'international.
+            </p>
+            <ul class="values reveal" id="valuesList"></ul>
+          </div>
+        </div>
+
+        <div class="stats reveal" id="stats"></div>
+      </div>
+    </section>
+
+    <!-- COMPÉTENCES -->
+    <section id="competences" class="section competences">
+
+      <!-- Théoriques : ciel étoilé plein écran -->
+      <div class="sky-section">
+        <canvas id="skyCanvas" aria-label="Ciel étoilé de ma formation"></canvas>
+        <div class="sky-fade-top" aria-hidden="true"></div>
+        <div class="sky-fade-bottom" aria-hidden="true"></div>
+        <div class="container sky-inner">
+          <p class="section-kicker reveal"><span class="num">02</span> <span data-i18n="nav.skills">Compétences</span></p>
+          <h2 class="section-title reveal" data-i18n="skills.theory_title">Compétences théoriques</h2>
+          <p class="section-lead reveal" data-i18n="skills.theory_lead">Mon parcours de formation — la théorie qui nourrit la pratique.</p>
+          <div class="constel-list" id="constelList" aria-label="Étapes de ma formation"></div>
+          <p class="sky-hint" data-i18n="sky.hint">✦ Cliquez sur une étoile brillante pour vous y rendre</p>
+        </div>
+      </div>
+
+      <!-- Pratiques : système solaire interactif -->
+      <div class="container practice-block">
+        <h2 class="section-title reveal" data-i18n="skills.practice_title">Compétences pratiques</h2>
+        <p class="section-lead reveal" data-i18n="skills.practice_hint">Chaque planète est un domaine que je maîtrise. Cliquez-en une pour révéler les projets qui le démontrent.</p>
+        <div class="solar-wrap reveal">
+          <div class="solar-stage">
+            <canvas id="solarCanvas" aria-label="Système solaire de mes compétences"></canvas>
+          </div>
+          <div class="solar-panel" id="solarPanel"></div>
+        </div>
+        <div class="solar-list" id="solarList" aria-label="Domaines de compétences"></div>
+      </div>
+
+    </section>
+
+    <!-- PROJETS -->
+    <section id="projets" class="section projets">
+      <div class="container">
+        <p class="section-kicker reveal"><span class="num">03</span> <span data-i18n="nav.projects">Projets</span></p>
+        <div class="projets-head">
+          <h2 class="section-title reveal" data-i18n="projects.title">Projets sélectionnés</h2>
+          <button class="filter-reset" id="filterReset" data-cursor="link" hidden>
+            <span data-i18n="projects.all">Tous les projets</span> ✕
+          </button>
+        </div>
+        <p class="filter-info" id="filterInfo" hidden></p>
+        <div class="projects-grid" id="projectsGrid"></div>
+      </div>
+    </section>
+
+    <!-- PARCOURS / STAGES -->
+    <section id="parcours" class="section parcours">
+      <div class="container">
+        <p class="section-kicker reveal"><span class="num">04</span> <span data-i18n="nav.journey">Parcours</span></p>
+        <h2 class="section-title reveal" data-i18n="journey.title">Expériences professionnelles</h2>
+        <p class="section-lead reveal" data-i18n="journey.lead">Chaque stage a transformé la théorie en pratique. Rapports téléchargeables.</p>
+        <div class="globe-wrap reveal">
+          <div class="globe-stage">
+            <canvas id="globeCanvas" aria-label="Globe interactif de mon parcours"></canvas>
+          </div>
+          <div class="globe-panel" id="globePanel"></div>
+        </div>
+        <div class="globe-list" id="globeList" aria-label="Étapes de mon parcours"></div>
+
+        <h3 class="subhead reveal" data-i18n="journey.certifs_title">Certifications</h3>
+        <div class="certifs" id="certifs"></div>
+      </div>
+    </section>
+
+    <!-- RECOMMANDATIONS -->
+    <section id="recommandations" class="section reco">
+      <div class="container">
+        <p class="section-kicker reveal"><span class="num">05</span> <span data-i18n="nav.reco">Recommandations</span></p>
+        <h2 class="section-title reveal" data-i18n="reco.title">Ils ont travaillé avec moi</h2>
+        <p class="section-lead reveal" data-i18n="reco.lead">Ce que disent celles et ceux qui m'ont encadré ou côtoyé.</p>
+        <div class="reco-grid" id="recoGrid"></div>
+      </div>
+    </section>
+
+    <!-- LANGUES -->
+    <section id="langues" class="section langues">
+      <div class="container">
+        <p class="section-kicker reveal"><span class="num">06</span> <span data-i18n="langs.kicker">Langues</span></p>
+        <h2 class="section-title reveal" data-i18n="langs.title">Langues</h2>
+        <div class="lang-grid" id="langGrid"></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section contact">
+      <div class="container">
+        <p class="section-kicker reveal"><span class="num">07</span> <span data-i18n="nav.contact">Contact</span></p>
+        <div class="contact-grid">
+          <div class="contact-left reveal">
+            <h2 class="section-title big" data-i18n="contact.title">Travaillons ensemble.</h2>
+            <p class="contact-status">
+              <span class="status-dot"></span>
+              <span data-i18n="contact.status">Disponible pour une alternance dès septembre 2026</span>
+            </p>
+            <a href="mailto:antoinebarthelemy60@gmail.com" class="mail-big" data-cursor="link">antoinebarthelemy60@gmail.com</a>
+          </div>
+          <div class="contact-right reveal">
+            <a class="contact-row" href="tel:+33675331944" data-cursor="link">
+              <span class="contact-label" data-i18n="contact.phone">Téléphone</span>
+              <span class="contact-val">06 75 33 19 44</span>
+            </a>
+            <a class="contact-row" href="https://www.linkedin.com/in/antoine-barthelemy-501929297" target="_blank" rel="noopener" data-cursor="link">
+              <span class="contact-label">LinkedIn</span>
+              <span class="contact-val">/antoine-barthélémy</span>
+            </a>
+            <a class="contact-row" href="https://github.com/AntoineBarthelemy" target="_blank" rel="noopener" data-cursor="link">
+              <span class="contact-label">GitHub</span>
+              <span class="contact-val">/AntoineBarthelemy</span>
+            </a>
+            <div class="contact-row static">
+              <span class="contact-label" data-i18n="contact.location">Localisation</span>
+              <span class="contact-val">Reims / Paris</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© 2026 Antoine Barthélémy</span>
+      <a href="#hero" class="back-top" data-cursor="link" data-i18n="footer.top">↑ Retour en haut</a>
+    </div>
+  </footer>
+
+  <!-- Overlay immersif : voyage vers l'étoile -->
+  <div class="warp-overlay" id="warpOverlay" hidden>
+    <canvas id="warpCanvas"></canvas>
+    <div class="warp-content" id="warpContent"></div>
+    <button class="warp-back" id="warpBack" data-cursor="link">↩ <span data-i18n="sky.back">Revenir sur Terre</span></button>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

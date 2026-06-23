@@ -1,0 +1,21 @@
+DÉPOSE TES DOCUMENTS PDF ICI
+============================
+(convention complète : voir assets/CONVENTION-NOMMAGE.md)
+
+Règle : minuscules, tirets entre les mots, pas d'accents, un préfixe de catégorie.
+
+1) Ton CV :
+   -> cv-antoine-barthelemy.pdf
+   (utilisé par le bouton "Télécharger le CV" du hero)
+
+2) Tes rapports de stage (préfixe "report-", après relecture confidentialité !) :
+   - report-codilee.pdf
+   - report-malblanc.pdf
+   - report-hktech.pdf
+   - report-koesio.pdf
+
+3) (optionnel) Certification IELTS :
+   - certificate-ielts.pdf
+
+Si un fichier est absent, le lien existe mais ne télécharge rien.
+Tu ajoutes les PDF quand tu veux, aucun code à toucher.

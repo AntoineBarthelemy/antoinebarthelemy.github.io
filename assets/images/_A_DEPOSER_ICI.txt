@@ -1,0 +1,24 @@
+DÉPOSE TES IMAGES ICI
+=====================
+(convention complète : voir assets/CONVENTION-NOMMAGE.md)
+
+Règle : minuscules, tirets entre les mots, pas d'accents, un préfixe de catégorie.
+
+1) Ta photo de profil (section hero) :
+   -> profile-antoine.jpg   ✅ (déjà en place)
+   (portrait, ~800x1000 px, JPG ou PNG renommé en .jpg)
+
+2) Les captures / visuels de tes projets (préfixe "project-",
+   le nom reprend l'id du projet dans js/data.js) :
+   - project-sam.jpg
+   - project-spoffee.jpg
+   - project-culture-jam.jpg
+   - project-unbelievably.jpg
+   - project-gpt-youtube.jpg
+   - project-zcasino.jpg
+   - project-infra-reseau.jpg
+
+3) (plus tard) logos -> logo-xxx.svg   |   icônes -> icon-xxx.svg
+
+Tant qu'un fichier est absent, un joli placeholder s'affiche
+automatiquement (aucune erreur). Ajoute-les au fur et à mesure.
