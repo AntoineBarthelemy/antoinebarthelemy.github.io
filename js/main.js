@@ -520,13 +520,13 @@
     if (!overlay || overlay.hidden) return;
     content.classList.remove("show");
     overlay.classList.remove("arrived");
+    document.body.style.overflow = "";                          // scroll rendu tout de suite (sinon gel ~1,75 s)
+    solarPaused = false;                                         // le système solaire reprend vie aussitôt (sinon graphique figé pendant le fondu)
     if (warp) warp.back();                                      // les étoiles repartent en accélérant
     setTimeout(() => overlay.classList.remove("active"), 350);  // le ciel se dissout dans le site (fondu CSS)
     setTimeout(() => {
       overlay.hidden = true;
       content.classList.remove("solar");
-      document.body.style.overflow = "";
-      solarPaused = false;                                      // la section solaire reprend vie
       if (warp) warp.stop();
     }, 350 + 1400);
   }
