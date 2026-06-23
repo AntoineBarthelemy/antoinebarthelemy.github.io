@@ -24,13 +24,13 @@ const DATA = {
   formation: [
     {
       short: "BUT", year: "2024",
-      title: { fr: "BUT Informatique — Université de Reims", en: "BUT Computer Science — University of Reims" },
+      title: { fr: "BUT Informatique - Université de Reims", en: "BUT Computer Science - University of Reims" },
       meta:  { fr: "2024 – 2027 · 3e année dès septembre 2026", en: "2024 – 2027 · Final year from September 2026" },
       desc:  { fr: "Conception, développement, données, réseaux et gestion de projet.", en: "Design, development, data, networks and project management." }
     },
     {
       short: "Le Wagon", year: "2023",
-      title: { fr: "Le Wagon — Concepteur Développeur Web", en: "Le Wagon — Web Development Bootcamp" },
+      title: { fr: "Le Wagon - Concepteur Développeur Web", en: "Le Wagon - Web Development Bootcamp" },
       meta:  { fr: "2023 – 2024 · Paris", en: "2023 – 2024 · Paris" },
       desc:  { fr: "Formation intensive full-stack (Ruby on Rails, JavaScript).", en: "Intensive full-stack bootcamp (Ruby on Rails, JavaScript)." }
     },
@@ -56,7 +56,7 @@ const DATA = {
   projects: [
     {
       id: "sam", year: "2026", featured: true,
-      role: { fr: "Conception produit & développement — Codilee", en: "Product design & development — Codilee" },
+      role: { fr: "Conception produit & développement - Codilee", en: "Product design & development - Codilee" },
       title: "Sam",
       tagline: { fr: "Faire un don à une personne sans-abri en 1 scan.", en: "Donate to a homeless person in one scan." },
       desc: { fr: "Application web progressive (PWA) permettant de faire un don immédiat à une personne sans-abri via un QR code remis par une association. 100 % du don revient au bénéficiaire. Espaces dédiés par association, paiements Stripe Connect, sécurité multi-tenant.", en: "A progressive web app (PWA) enabling instant donations to a homeless person via a QR code provided by a partner charity. 100% goes to the beneficiary. Per-charity dashboards, Stripe Connect payments, multi-tenant security." },
@@ -66,7 +66,7 @@ const DATA = {
     },
     {
       id: "spoffee", year: "2026", featured: true,
-      role: { fr: "Conception produit & développement — Codilee", en: "Product design & development — Codilee" },
+      role: { fr: "Conception produit & développement - Codilee", en: "Product design & development - Codilee" },
       title: "Spoffee",
       tagline: { fr: "Réservez votre coin de travail dans un café.", en: "Book your workspace in a café." },
       desc: { fr: "Marketplace mettant en relation des travailleurs nomades et des cafés proposant des espaces réservables en ligne. Carte interactive, réservation et paiement Stripe, tableau de bord pour les établissements.", en: "A marketplace connecting remote workers with cafés offering bookable workspaces. Interactive map, Stripe payments, owner dashboard." },
@@ -76,7 +76,7 @@ const DATA = {
     },
     {
       id: "culture-jam", year: "2024", featured: false,
-      role: { fr: "Projet d'équipe — Le Wagon", en: "Team project — Le Wagon" },
+      role: { fr: "Projet d'équipe - Le Wagon", en: "Team project - Le Wagon" },
       title: "Culture Jam",
       tagline: { fr: "Un réseau social pour nourrir sa curiosité culturelle.", en: "A social network to feed cultural curiosity." },
       desc: { fr: "Réseau social encourageant le partage d'activités culturelles, en réaction au contenu superficiel des réseaux traditionnels. Contenu instructif et personnalisé.", en: "A social network encouraging the sharing of cultural activities, reacting to the superficial content of mainstream networks. Educational, personalized content." },
@@ -86,7 +86,7 @@ const DATA = {
     },
     {
       id: "unbelievably", year: "2024", featured: false,
-      role: { fr: "Projet d'équipe (4) — Le Wagon", en: "Team project (4) — Le Wagon" },
+      role: { fr: "Projet d'équipe (4) - Le Wagon", en: "Team project (4) - Le Wagon" },
       title: "Unbelievably",
       tagline: { fr: "Un Airbnb d'activités imaginaires et fantastiques.", en: "An Airbnb of imaginary, fantastical activities." },
       desc: { fr: "Application inspirée d'Airbnb proposant des activités fantastiques. Réalisée à quatre en méthodologie agile.", en: "An Airbnb-inspired web app offering fantastical activities. Built by a team of four using agile methodology." },
@@ -96,7 +96,7 @@ const DATA = {
     },
     {
       id: "gpt-youtube", year: "2023", featured: false,
-      role: { fr: "Projet personnel — HK-Tech", en: "Personal project — HK-Tech" },
+      role: { fr: "Projet personnel - HK-Tech", en: "Personal project - HK-Tech" },
       title: { fr: "GPT × YouTube", en: "GPT × YouTube" },
       tagline: { fr: "Résumer une vidéo YouTube via une simple URL.", en: "Summarize a YouTube video from a single URL." },
       desc: { fr: "Application connectée à l'API OpenAI : transcription audio (Whisper) puis traitement par GPT-3.5 Turbo à partir d'une URL et de prompts utilisateur. Idée anticipée avant la sortie officielle de la fonctionnalité.", en: "An app connected to the OpenAI API: audio transcription (Whisper) then GPT-3.5 Turbo processing from a URL and user prompts. Anticipated before the feature's official release." },
@@ -116,7 +116,7 @@ const DATA = {
     },
     {
       id: "infra-reseau", year: "2021", featured: false,
-      role: { fr: "Stage réseau — Koesio", en: "Network internship — Koesio" },
+      role: { fr: "Stage réseau - Koesio", en: "Network internship - Koesio" },
       title: { fr: "Infrastructure réseau", en: "Network infrastructure" },
       tagline: { fr: "Mettre en place une infrastructure serveur.", en: "Building a server infrastructure." },
       desc: { fr: "Serveur sous Hyper-V, Active Directory (unités d'organisation, stratégies de groupe), configuration NAS et RAID. Découverte concrète des systèmes communicants.", en: "Hyper-V server, Active Directory (OUs, group policies), NAS and RAID configuration. Hands-on introduction to communicating systems." },
@@ -169,7 +169,7 @@ const DATA = {
     city: "New York",
     lat: 40.7128, lng: -74.0060,
     title: { fr: "Objectif : travailler aux États-Unis", en: "Goal: working in the United States" },
-    desc: { fr: "Après mon diplôme, je souhaite travailler un an dans la tech aux États-Unis : découvrir d'autres méthodes, d'autres équipes et d'autres façons de penser — avant de poursuivre en école d'ingénieur. L'international, c'est ma façon de grandir.", en: "After graduating, I want to spend a year working in tech in the United States: discovering other methods, other teams and other ways of thinking — before continuing at an engineering school. Going international is how I grow." }
+    desc: { fr: "Après mon diplôme, je souhaite travailler un an dans la tech aux États-Unis : découvrir d'autres méthodes, d'autres équipes et d'autres façons de penser, avant de poursuivre en école d'ingénieur. L'international, c'est ma façon de grandir.", en: "After graduating, I want to spend a year working in tech in the United States: discovering other methods, other teams and other ways of thinking, before continuing at an engineering school. Going international is how I grow." }
   },
 
   /* --- Certifications --- */
@@ -184,7 +184,7 @@ const DATA = {
     {
       initials: "JS",
       name: "Jatin Singh",
-      role: { fr: "Software Engineer — Codilee", en: "Software Engineer — Codilee" },
+      role: { fr: "Software Engineer - Codilee", en: "Software Engineer - Codilee" },
       relation: { fr: "A travaillé avec moi · Juin 2026", en: "Worked with me · June 2026" },
       quote: {
         fr: "J'ai eu le plaisir de travailler avec Antoine chez Codilee, et c'est le type de collègue que l'on espère avoir dans son équipe. Il est agréable et facile à collaborer, travailleur, et remarquablement compétent dans le domaine des technologies. Ce qui le distingue avant tout, c'est sa curiosité : il explore sans cesse de nouveaux outils et de nouvelles idées, et cette énergie tire vers le haut tout son entourage.",

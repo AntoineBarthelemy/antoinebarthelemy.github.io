@@ -211,7 +211,7 @@
     const info = document.getElementById("filterInfo");
     const count = projectCount(key);
     const word = count > 1 ? t("projects.count_many") : t("projects.count_one");
-    info.textContent = `${t("projects.filtered_by")} ${competenceLabel(key)} — ${count} ${word}`;
+    info.textContent = `${t("projects.filtered_by")} ${competenceLabel(key)} - ${count} ${word}`;
     info.hidden = false;
     reset.hidden = false;
   }
@@ -355,7 +355,7 @@
     const accentSoft = "126,160,255";
     let w = 0, h = 0, dpr = 1, cx = 0, cy = 0;
     let stars = [], speed = 0, mode = "idle", pt = 0, running = false;
-    let arriveCb = null, doneCb = null;
+    let arriveCb = null, doneCb = null, overlayDraw = null;
     const easeOut = (p) => 1 - Math.pow(1 - p, 3);
     const easeIn = (p) => p * p * p;
 
@@ -402,6 +402,7 @@
         ctx.lineWidth = Math.max(0.6, depth * 2.6);
         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
       }
+      if (overlayDraw) overlayDraw(ctx, cx, cy, pt, Math.min(w, h));
       requestAnimationFrame(loop);
     }
 
@@ -411,6 +412,7 @@
         ctx.fillStyle = "#06070f"; ctx.fillRect(0, 0, w, h);
         for (const s of stars) { const a = proj(s); ctx.fillStyle = "rgba(255,255,255,0.55)"; ctx.fillRect(a.x, a.y, 1.6, 1.6); }
         if (cb) cb();
+        if (overlayDraw) overlayDraw(ctx, cx, cy, 0, Math.min(w, h));
         return;
       }
       speed = 0; pt = 0; mode = "dive"; arriveCb = cb; running = true;
@@ -422,11 +424,13 @@
     }
     function stop() {
       running = false;
+      overlayDraw = null;
       ctx.clearRect(0, 0, w, h);
     }
+    function setOverlay(fn) { overlayDraw = fn; }
 
     window.addEventListener("resize", () => { if (running) resize(); });
-    warp = { dive, back, stop };
+    warp = { dive, back, stop, setOverlay };
   }
 
   function warpDetailHTML(f) {
@@ -437,18 +441,77 @@
       <p class="wc-desc">${tx(f.desc)}</p>`;
   }
 
-  function openWarp(i) {
+  // Orchestration commune de la plongée (réutilisée par les étoiles ET les planètes)
+  function openWarpWith(html, opts) {
+    const o = opts || {};
     const overlay = document.getElementById("warpOverlay");
     const content = document.getElementById("warpContent");
-    const f = DATA.formation[i];
     if (!overlay || !content || !warp) return;
-    content.innerHTML = warpDetailHTML(f);
+    if (warp.setOverlay) warp.setOverlay(null);
+    content.innerHTML = html;
     content.classList.remove("show");
+    content.classList.toggle("solar", !!o.solar);
     overlay.classList.remove("arrived");
     overlay.hidden = false;
+    // libellé du bouton « Revenir » selon le contexte
+    const back = document.getElementById("warpBack");
+    const span = back && back.querySelector("span");
+    if (span) { const k = o.backKey || "sky.back"; span.setAttribute("data-i18n", k); span.textContent = t(k); }
+    solarPaused = true; // la section solaire est masquée par l'overlay : on suspend sa boucle
     document.body.style.overflow = "hidden";
     requestAnimationFrame(() => overlay.classList.add("active"));
-    warp.dive(() => { content.classList.add("show"); overlay.classList.add("arrived"); });
+    warp.dive(() => {
+      content.classList.add("show");
+      overlay.classList.add("arrived");
+      if (o.onArrive && warp.setOverlay) warp.setOverlay(o.onArrive); // la planète se révèle à l'arrivée
+    });
+  }
+
+  function openWarp(i) {
+    const f = DATA.formation[i];
+    if (f) openWarpWith(warpDetailHTML(f));
+  }
+
+  function warpDomainHTML(key) {
+    const c = DATA.competences.find((x) => x.key === key);
+    if (!c) return "";
+    const projs = DATA.projects.filter((p) => p.competences.includes(key));
+    const cards = projs.map((p) => `
+      <button class="wc-proj" data-pid="${p.id}" data-cursor="link">
+        <span class="wc-proj-y">${p.year || ""}</span>
+        <span class="wc-proj-t">${typeof p.title === "string" ? p.title : tx(p.title)}</span>
+        <span class="wc-proj-d">${tx(p.tagline)}</span>
+      </button>`).join("");
+    return `
+      <p class="wc-year">${t("skills.domain")}</p>
+      <h3>${competenceLabel(key)}</h3>
+      <p class="wc-desc">${tx(c.desc)}</p>
+      <p class="wc-projlabel">${t("skills.projects_in_domain")}</p>
+      <div class="wc-projects">${cards}</div>`;
+  }
+
+  function openWarpSolar(key) {
+    openWarpWith(warpDomainHTML(key), {
+      solar: true,
+      backKey: "skills.back",
+      onArrive: (octx, ocx, ocy, opt, minWH) => {
+        const r = minWH * 0.17;
+        const py = ocy - minWH * 0.18;
+        drawPlanet(octx, ocx, py, r, {
+          cx: ocx - r * 0.7, cy: py - r * 0.7,
+          key, depth: 1, big: true, spin: opt * 1.1
+        });
+      }
+    });
+    // les mini-cartes projets mènent à la section Projets
+    const content = document.getElementById("warpContent");
+    if (content) content.querySelectorAll(".wc-proj").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        closeWarp();
+        const target = document.getElementById("projets");
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
   }
 
   function closeWarp() {
@@ -461,7 +524,9 @@
     setTimeout(() => overlay.classList.remove("active"), 350);  // le ciel se dissout dans le site (fondu CSS)
     setTimeout(() => {
       overlay.hidden = true;
+      content.classList.remove("solar");
       document.body.style.overflow = "";
+      solarPaused = false;                                      // la section solaire reprend vie
       if (warp) warp.stop();
     }, 350 + 1400);
   }
@@ -503,7 +568,7 @@
         <h4>${tx(s.title)}</h4>
         <p class="gp-org">${tx(s.org)}</p>
         <p class="gp-itemdesc">${tx(s.desc)}</p>
-        ${s.report ? `<a class="t-report" href="${s.report}" download data-cursor="link">${t("journey.report")}</a>` : ""}
+        ${s.report ? `<a class="t-report" href="${s.report}" target="_blank" rel="noopener" download data-cursor="link">${t("journey.report")}</a>` : ""}
       </div>`).join("");
     return `
       <p class="gp-city">${loc.city}</p>
@@ -801,6 +866,126 @@
      SYSTÈME SOLAIRE (compétences pratiques)
      ========================================================= */
   let solarState = null;
+  let solarPaused = false; // suspend la boucle solaire pendant la plongée plein écran
+
+  /* ---------------------------------------------------------
+     Rendu d'une planète sphérique ombrée + texture procédurale
+     (bichromie encre + cobalt, fond clair). Réutilisé par le
+     système solaire ET par la grande planète de la plongée.
+     --------------------------------------------------------- */
+  const PLANET_ACCENT = "45,91,255";
+  function planetSeed(str) { let h = 2166136261; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function planetRng(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+  // Bandes horizontales (géante gazeuse), qui défilent verticalement avec spin.
+  function texBands(ctx, x, y, r, spin, count, accentEvery, A, rot) {
+    ctx.save();
+    if (rot) { ctx.translate(x, y); ctx.rotate(rot); ctx.translate(-x, -y); }
+    const h = (2 * r) / count;
+    const shift = spin * r * 0.18;
+    const base = Math.floor(shift / h);
+    const off = shift - base * h;
+    for (let i = -1; i <= count; i++) {
+      const idx = i + base;
+      const yy = y - r + i * h - off;
+      const tone = 0.5 + 0.5 * Math.sin(idx * 1.25);
+      const g = Math.round(34 + tone * 46);
+      const isAcc = accentEvery > 0 && (((idx % accentEvery) + accentEvery) % accentEvery) === 0;
+      ctx.fillStyle = isAcc ? `rgba(${A},0.45)` : `rgba(${g},${g},${g + 12},0.5)`;
+      ctx.fillRect(x - r * 1.3, yy, 2.6 * r, h + 1.2);
+    }
+    ctx.restore();
+  }
+
+  // Cratères pseudo-aléatoires déterministes, en rotation cylindrique.
+  function texCraters(ctx, x, y, r, spin, seed) {
+    const rnd = planetRng(seed);
+    for (let i = 0; i < 7; i++) {
+      const lon0 = rnd() * Math.PI * 2;
+      const lat = (rnd() * 2 - 1) * 0.75;
+      const rad = 0.12 + rnd() * 0.15;
+      const lon = lon0 + spin * 0.7;
+      const cosL = Math.cos(lon);
+      if (cosL <= 0.06) continue;
+      const px = x + Math.sin(lon) * r * Math.cos(lat) * 0.92;
+      const py = y + Math.sin(lat) * r * 0.92;
+      const cr = rad * r * cosL;
+      ctx.beginPath(); ctx.arc(px, py, cr, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(8,9,16,0.5)"; ctx.fill();
+      ctx.beginPath(); ctx.arc(px - cr * 0.22, py - cr * 0.22, cr * 0.66, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(128,132,150,0.32)"; ctx.fill();
+    }
+  }
+
+  // Grille de points régulière (« stockage »), qui défile.
+  function texGrid(ctx, x, y, r) {
+    const step = r * 0.36;
+    const dot = Math.max(0.8, r * 0.05);
+    for (let gx = -r - step; gx <= r; gx += step) {
+      for (let gy = -r; gy <= r; gy += step) {
+        const px = x + gx, py = y + gy;
+        if (Math.hypot(px - x, py - y) > r * 0.98) continue;
+        ctx.beginPath(); ctx.arc(px, py, dot, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(150,154,170,0.42)"; ctx.fill();
+      }
+    }
+  }
+
+  // Calottes polaires claires + un méridien cobalt qui tourne.
+  function texCaps(ctx, x, y, r, spin, A) {
+    ctx.fillStyle = "rgba(150,154,172,0.5)";
+    ctx.beginPath(); ctx.ellipse(x, y - r * 0.74, r * 0.92, r * 0.34, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(x, y + r * 0.74, r * 0.92, r * 0.34, 0, 0, Math.PI * 2); ctx.fill();
+    const lon = spin * 0.7;
+    ctx.strokeStyle = `rgba(${A},0.5)`; ctx.lineWidth = Math.max(1, r * 0.05);
+    ctx.beginPath(); ctx.ellipse(x, y, Math.abs(Math.sin(lon)) * r, r, 0, 0, Math.PI * 2); ctx.stroke();
+  }
+
+  function drawPlanetTexture(ctx, x, y, r, key, spin) {
+    const A = PLANET_ACCENT;
+    if (key === "dev") texBands(ctx, x, y, r, spin, 6, 4, A, 0);
+    else if (key === "optim") texBands(ctx, x, y, r, spin, 11, 6, A, 0);
+    else if (key === "equipe") texBands(ctx, x, y, r, spin, 7, 4, A, -0.5);
+    else if (key === "sys") texCraters(ctx, x, y, r, spin, planetSeed(key));
+    else if (key === "data") texGrid(ctx, x, y, r);
+    else if (key === "projet") texCaps(ctx, x, y, r, spin, A);
+    else texBands(ctx, x, y, r, spin, 6, 4, A, 0);
+  }
+
+  // Sphère ombrée : terminateur clair/sombre orienté vers (cx,cy) = le soleil.
+  function drawPlanet(ctx, x, y, r, opts) {
+    const o = opts || {};
+    const key = o.key || "dev";
+    const spin = o.spin || 0;
+    const selected = !!o.selected;
+    const depth = o.depth == null ? 1 : o.depth;
+    const big = !!o.big;
+    let dx = (o.cx == null ? x : o.cx) - x, dy = (o.cy == null ? y - r : o.cy) - y;
+    const dl = Math.hypot(dx, dy) || 1; dx /= dl; dy /= dl;
+    const lx = x + dx * r * 0.5, ly = y + dy * r * 0.5;
+
+    ctx.save();
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.clip();
+    const g = ctx.createRadialGradient(lx, ly, r * 0.05, x, y, r * 1.1);
+    g.addColorStop(0, "rgba(74,78,96,1)");
+    g.addColorStop(0.5, "rgba(34,37,52,1)");
+    g.addColorStop(1, "rgba(11,11,12,1)");
+    ctx.fillStyle = g; ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+
+    if (big || depth > 0.4) drawPlanetTexture(ctx, x, y, r, key, spin);
+
+    const sh = ctx.createRadialGradient(lx, ly, r * 0.1, x, y, r * 1.15);
+    sh.addColorStop(0, "rgba(255,255,255,0.12)");
+    sh.addColorStop(0.5, "rgba(255,255,255,0)");
+    sh.addColorStop(1, "rgba(6,7,15,0.66)");
+    ctx.fillStyle = sh; ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+    ctx.restore();
+
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.strokeStyle = selected ? `rgba(${PLANET_ACCENT},0.9)` : "rgba(11,11,12,0.22)";
+    ctx.lineWidth = selected ? 1.8 : 1;
+    ctx.stroke();
+  }
 
   function initSolar() {
     const canvas = document.getElementById("solarCanvas");
@@ -818,11 +1003,11 @@
       orbit: i,
       angle: (i / n) * PI2,
       speed: 0.0040 - 0.0020 * (i / (n - 1)), // intérieur = plus rapide
-      pr: 4.5 + projectCount(c.key) * 0.95
+      pr: 6.5 + projectCount(c.key) * 1.1
     }));
     solarState = { selected: activeFilter, planets, redraw: null };
 
-    let w = 0, h = 0, dpr = 1, cx = 0, cy = 0, R = 0, hoverKey = null;
+    let w = 0, h = 0, dpr = 1, cx = 0, cy = 0, R = 0, hoverKey = null, time = 0;
 
     function resize() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -855,11 +1040,13 @@
     }
 
     function drawSun() {
-      const g = ctx.createRadialGradient(cx, cy, 2, cx, cy, 34);
-      g.addColorStop(0, `rgba(${accent},0.38)`);
+      const br = Math.sin(time * 0.9);              // respiration
+      const haloR = 34 + br * 3;
+      const g = ctx.createRadialGradient(cx, cy, 2, cx, cy, haloR);
+      g.addColorStop(0, `rgba(${accent},${0.34 + br * 0.06})`);
       g.addColorStop(1, `rgba(${accent},0)`);
       ctx.fillStyle = g;
-      ctx.beginPath(); ctx.arc(cx, cy, 34, 0, PI2); ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, haloR, 0, PI2); ctx.fill();
       ctx.beginPath(); ctx.arc(cx, cy, 9, 0, PI2);
       ctx.fillStyle = "#0b0b0c"; ctx.fill();
       ctx.beginPath(); ctx.arc(cx, cy, 9, 0, PI2);
@@ -874,6 +1061,14 @@
         const sel = solarState.selected === p.key;
         const hov = hoverKey === p.key;
         const r = p.pr * (0.62 + 0.38 * pt.depth) * (sel ? 1.5 : 1);
+
+        // traînée d'orbite discrète derrière la planète
+        const r0 = orbitR(p.orbit);
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, r0, r0 * tilt, 0, p.angle - 0.5, p.angle);
+        ctx.strokeStyle = `rgba(11,11,12,${0.08 * pt.depth})`;
+        ctx.lineWidth = 1.4; ctx.stroke();
+
         if (sel) {
           ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(pt.x, pt.y);
           ctx.strokeStyle = `rgba(${accent},0.35)`; ctx.lineWidth = 1.2; ctx.stroke();
@@ -882,15 +1077,15 @@
           ctx.beginPath(); ctx.arc(pt.x, pt.y, r + 8, 0, PI2);
           ctx.fillStyle = `rgba(${accent},0.13)`; ctx.fill();
         }
-        ctx.beginPath(); ctx.arc(pt.x, pt.y, r, 0, PI2);
-        if (sel) {
-          ctx.fillStyle = `rgba(${accent},1)`;
-          ctx.shadowColor = `rgba(${accent},0.9)`; ctx.shadowBlur = 14;
-        } else {
-          ctx.fillStyle = `rgba(11,11,12,${0.4 + 0.45 * pt.depth})`;
-          ctx.shadowBlur = 0;
-        }
-        ctx.fill(); ctx.shadowBlur = 0;
+
+        // profondeur : l'arrière est plus transparent (sans shadowBlur coûteux)
+        ctx.globalAlpha = 0.55 + 0.45 * pt.depth;
+        drawPlanet(ctx, pt.x, pt.y, r, {
+          cx, cy, key: p.key, depth: pt.depth, selected: sel,
+          spin: time * (0.5 + 0.12 * p.orbit)
+        });
+        ctx.globalAlpha = 1;
+
         if (sel || hov) {
           ctx.font = "600 12.5px 'Space Grotesk', system-ui, sans-serif";
           ctx.textAlign = "center";
@@ -919,7 +1114,10 @@
       }
     }
 
-    function frame() { step(); render(); requestAnimationFrame(frame); }
+    function frame() {
+      if (!solarPaused) { time += 0.016; step(); render(); }
+      requestAnimationFrame(frame);
+    }
 
     function hit(mx, my) {
       let best = null, bd = 22;
@@ -942,7 +1140,7 @@
     canvas.addEventListener("click", (e) => {
       const { mx, my } = pointer(e);
       const k = hit(mx, my);
-      if (k) toggleFilter(k); else clearFilter();
+      if (k) openWarpSolar(k); else clearFilter();
     });
 
     resize();

@@ -27,8 +27,11 @@
 }
 
 /* ---------- Reset ---------- */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0;  }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+/* Scrollbar native masquée : la progression est déjà indiquée par la barre du header (le scroll reste fonctionnel) */
+html { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar { width: 0; height: 0; display: none; }
 body {
   font-family: var(--font-body);
   color: var(--ink);
@@ -284,6 +287,24 @@ section { scroll-margin-top: 90px; }
 .warp-back:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
 @media (prefers-reduced-motion: reduce) {
   .warp-content { transition: opacity .3s; transform: none; }
+}
+/* Plongée dans un domaine : la grande planète occupe le haut, le contenu glisse en bas */
+.warp-content.solar { justify-content: flex-end; padding-bottom: 9vh; }
+.warp-content .wc-projlabel { margin: 26px 0 14px; color: #7ea0ff; font-weight: 600; font-size: 12.5px; text-transform: uppercase; letter-spacing: .14em; }
+.warp-content .wc-projects { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; max-width: 760px; }
+.wc-proj {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left;
+  padding: 12px 16px; border: 1px solid rgba(255,255,255,0.18); border-radius: 14px;
+  background: rgba(255,255,255,0.03); color: #fff; min-width: 150px; max-width: 220px;
+  transition: border-color .25s, background .25s, transform .25s;
+}
+.wc-proj:hover { border-color: rgba(126,160,255,0.8); background: rgba(126,160,255,0.08); transform: translateY(-3px); }
+.wc-proj .wc-proj-y { font-family: var(--font-display); color: #7ea0ff; font-weight: 600; font-size: 12px; letter-spacing: .1em; }
+.wc-proj .wc-proj-t { font-weight: 600; font-size: 15px; }
+.wc-proj .wc-proj-d { color: #aeb4cc; font-size: 12.5px; line-height: 1.4; }
+@media (max-width: 900px) {
+  .warp-content.solar { padding-bottom: 6vh; }
+  .wc-proj { min-width: 130px; }
 }
 
 /* ---------- Constellation (formation) ---------- */
