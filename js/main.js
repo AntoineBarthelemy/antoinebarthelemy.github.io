@@ -115,7 +115,7 @@
         </div>
       </article>`;
     }).join("") + `
-      <article class="project-card project-soon" data-competences="" aria-hidden="true">
+      <article class="project-card project-soon" data-competences="">
         <span class="soon-comet" aria-hidden="true"></span>
         <p class="soon-msg"><span data-i18n="projects.soon">${t("projects.soon")}</span></p>
       </article>`;
