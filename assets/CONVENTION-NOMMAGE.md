@@ -27,8 +27,10 @@ Exemple : `Photo de Profil (1).JPG` ❌ → `profile-antoine.jpg` ✅
 > défini dans `js/data.js`. Exemple : projet `id: "gpt-youtube"` → `project-gpt-youtube.jpg`.
 
 **Fichiers projets attendus :**
-`project-sam.jpg` · `project-spoffee.jpg` · `project-culture-jam.jpg` ·
-`project-unbelievably.jpg` · `project-gpt-youtube.jpg` · `project-zcasino.jpg` ·
+`project-sam.jpg` · `project-spoffee.jpg` · `project-creation-entreprise.jpg` ·
+`project-geevent.jpg` · `project-bases-de-donnees.jpg` · `project-graphes.jpg` ·
+`project-travail-equipe.jpg` · `project-culture-jam.jpg` · `project-unbelievably.jpg` ·
+`project-poste-dev.jpg` · `project-gpt-youtube.jpg` · `project-zcasino.jpg` ·
 `project-infra-reseau.jpg`
 
 ---
@@ -39,11 +41,20 @@ Exemple : `Photo de Profil (1).JPG` ❌ → `profile-antoine.jpg` ✅
 |------|---------|---------|
 | CV | `cv-` | `cv-antoine-barthelemy.pdf` |
 | Rapport de stage | `report-` | `report-codilee.pdf` |
+| Livrable / rapport de projet | `doc-` | `doc-graphes.pdf` |
 | Certification / diplôme | `certificate-` | `certificate-ielts.pdf` |
 
+> ⚠️ Pour un livrable de projet, le nom reprend l'**`id`** du projet dans `js/data.js`
+> (ex. projet `id: "graphes"` → `doc-graphes.pdf`). Si un projet a plusieurs livrables,
+> on suffixe : `doc-geevent-cahier-des-charges.pdf`, `doc-geevent-scrum.pdf`.
+
 **Fichiers documents attendus :**
-`cv-antoine-barthelemy.pdf` · `report-codilee.pdf` · `report-malblanc.pdf` ·
-`report-hktech.pdf` · `report-koesio.pdf` · `certificate-ielts.pdf`
+`cv-antoine-barthelemy.pdf` · `report-codilee.pdf` · `report-hktech.pdf` ·
+`report-koesio.pdf` · `certificate-ielts.pdf` · `certificate-le-wagon.jpg` ·
+`certificate-but-notes.pdf` · `doc-creation-entreprise.pdf` ·
+`doc-geevent-cahier-des-charges.pdf` · `doc-geevent-scrum.pdf` · `doc-poste-dev.pdf` ·
+`doc-bd-club-voile.pdf` · `doc-bd-supermarche.pdf` · `doc-graphes.pdf` ·
+`doc-travail-equipe.pdf`
 
 ---
 

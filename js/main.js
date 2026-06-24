@@ -96,6 +96,7 @@
       const links = [];
       if (p.github) links.push(`<a href="${p.github}" target="_blank" rel="noopener" data-cursor="link">↗ ${t("links.github")}</a>`);
       if (p.demo)   links.push(`<a href="${p.demo}" target="_blank" rel="noopener" data-cursor="link">↗ ${t("links.demo")}</a>`);
+      if (p.docs)   p.docs.forEach((d) => links.push(`<a href="${d.file}" target="_blank" rel="noopener" download data-cursor="link">↓ ${tx(d.label)}</a>`));
       const title = tx(p.title);
       return `
       <article class="project-card ${p.featured ? "featured" : ""}" data-competences="${p.competences.join(" ")}" data-cursor="link">
@@ -443,7 +444,8 @@
       <p class="wc-year">${f.year || ""}</p>
       <h3>${tx(f.title)}</h3>
       <p class="wc-meta">${tx(f.meta)}</p>
-      <p class="wc-desc">${tx(f.desc)}</p>`;
+      <p class="wc-desc">${tx(f.desc)}</p>
+      ${f.file ? `<a class="wc-file" href="${f.file}" target="_blank" rel="noopener" download data-cursor="link">${tx(f.fileLabel || { fr: "Télécharger ↓", en: "Download ↓" })}</a>` : ""}`;
   }
 
   // Orchestration commune de la plongée (réutilisée par les étoiles ET les planètes)

@@ -276,6 +276,8 @@ section { scroll-margin-top: 90px; }
 .warp-content h3 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.2rem, 6vw, 4.2rem); letter-spacing: -.02em; line-height: 1.04; margin-bottom: 18px; }
 .warp-content .wc-meta { color: #aeb4cc; font-weight: 600; font-size: 1rem; margin-bottom: 18px; }
 .warp-content .wc-desc { max-width: 640px; color: #cdd2e4; font-size: 1.12rem; line-height: 1.7; }
+.warp-content .wc-file { display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; font-family: var(--font-display); font-weight: 600; font-size: 14px; color: #7ea0ff; transition: color .25s; }
+.warp-content .wc-file:hover { color: #fff; }
 .warp-back {
   position: absolute; bottom: 6vh; left: 50%; transform: translateX(-50%); z-index: 3;
   display: inline-flex; align-items: center; gap: 8px; color: #fff;
