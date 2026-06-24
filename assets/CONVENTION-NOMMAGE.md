@@ -30,8 +30,8 @@ Exemple : `Photo de Profil (1).JPG` ❌ → `profile-antoine.jpg` ✅
 `project-sam.jpg` · `project-spoffee.jpg` · `project-creation-entreprise.jpg` ·
 `project-geevent.jpg` · `project-bases-de-donnees.jpg` · `project-graphes.jpg` ·
 `project-travail-equipe.jpg` · `project-culture-jam.jpg` · `project-unbelievably.jpg` ·
-`project-poste-dev.jpg` · `project-gpt-youtube.jpg` · `project-zcasino.jpg` ·
-`project-infra-reseau.jpg`
+`project-poste-dev.jpg` · `project-gpt-youtube.jpg` · `project-meteo.jpg` ·
+`project-zcasino.jpg`
 
 ---
 
