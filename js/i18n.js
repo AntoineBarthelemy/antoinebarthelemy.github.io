@@ -97,9 +97,9 @@ const I18N = {
     "hero.scroll": "Scroll",
 
     "about.title": "Design before coding.",
-    "about.p1": "Passionate about computer science since middle school, I build my skills on two complementary axes: education (the theoretical foundations) and hands-on experience (the practice). This combination lets me turn a fuzzy need into a clear, lasting solution.",
+    "about.p1": "Passionate about computer science since middle school, I build my skills on two complementary axes: education (the theoretical foundations) and hands-on experience (the practice). This combination is what lets me build a deep understanding of computer systems.",
     "about.p2": "My goal: to become an expert in my field. After graduating, I want to work for a year in the United States in the IT sector, then continue at an engineering school.",
-    "about.p3": "What defines me is curiosity and the drive to grow through others: discovering new ways of thinking, new work environments, new cultures. I can't see myself standing still, I need to evolve, change horizons and learn from differences. That's why I'm steering my career toward the international stage.",
+    "about.p3": "What defines me is curiosity and the drive to grow through others: discovering new ways of thinking, new work environments, new cultures.",
 
     "skills.theory_title": "Theoretical skills",
     "skills.theory_lead": "A boundless sky: we learn all our lives. The brightest stars are my education, click to travel to one.",
