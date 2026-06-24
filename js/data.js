@@ -185,14 +185,14 @@ const DATA = {
       github: "https://github.com/AntoineBarthelemy/Python-ZCasino", image: "assets/images/project-zcasino.jpg"
     },
     {
-      id: "infra-reseau", year: "2021", featured: false,
-      role: { fr: "Stage réseau - Koesio", en: "Network internship - Koesio" },
-      title: { fr: "Infrastructure réseau", en: "Network infrastructure" },
-      tagline: { fr: "Mettre en place une infrastructure serveur.", en: "Building a server infrastructure." },
-      desc: { fr: "Serveur sous Hyper-V, Active Directory (unités d'organisation, stratégies de groupe), configuration NAS et RAID. Découverte concrète des systèmes communicants.", en: "Hyper-V server, Active Directory (OUs, group policies), NAS and RAID configuration. Hands-on introduction to communicating systems." },
-      tech: ["Hyper-V", "Active Directory", "NAS", "RAID"],
-      competences: ["sys", "data"],
-      github: "", demo: "", image: "assets/images/project-infra-reseau.jpg"
+      id: "meteo", year: "2022", featured: false,
+      role: { fr: "Projet personnel - HK-Tech", en: "Personal project - HK-Tech" },
+      title: { fr: "Application météo", en: "Weather app" },
+      tagline: { fr: "Consulter la météo de n'importe quelle ville du monde.", en: "Check the weather of any city in the world." },
+      desc: { fr: "Petite application web réalisée lors de la dernière semaine de mon stage chez HK-Tech, reliée à l'API OpenWeatherMap. L'utilisateur saisit le nom d'une ville et obtient en retour sa météo : température, humidité et ensoleillement. Une mise en pratique concrète des bases acquises pendant le stage.", en: "A small web app built during the final week of my HK-Tech internship, connected to the OpenWeatherMap API. The user enters a city name and gets its weather in return: temperature, humidity and sunshine. A hands-on application of the fundamentals learned during the internship." },
+      tech: ["HTML5", "CSS3", "JavaScript", "API OpenWeatherMap"],
+      competences: ["dev"],
+      image: "assets/images/project-meteo.jpg"
     }
   ],
 
