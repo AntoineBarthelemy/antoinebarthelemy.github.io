@@ -37,12 +37,6 @@ const DATA = {
       desc:  { fr: "Formation intensive full-stack (Ruby on Rails, JavaScript).", en: "Intensive full-stack bootcamp (Ruby on Rails, JavaScript)." },
       file:  "assets/documents/certificate-le-wagon.pdf",
       fileLabel: { fr: "Voir l'attestation ↓", en: "View certificate ↓" }
-    },
-    {
-      short: "Bac", year: "2020",
-      title: { fr: "Baccalauréat Général", en: "French Baccalaureate (high school)" },
-      meta:  { fr: "2020 – 2023 · Reims", en: "2020 – 2023 · Reims" },
-      desc:  { fr: "Spécialités : NSI (Numérique & Sciences Informatiques) & Mathématiques.", en: "Majors: Computer Science & Mathematics." }
     }
   ],
 
