@@ -114,7 +114,11 @@
           ${links.length ? `<div class="project-links">${links.join("")}</div>` : ""}
         </div>
       </article>`;
-    }).join("");
+    }).join("") + `
+      <article class="project-card project-soon" data-competences="" aria-hidden="true">
+        <span class="soon-comet" aria-hidden="true"></span>
+        <p class="soon-msg"><span data-i18n="projects.soon">${t("projects.soon")}</span></p>
+      </article>`;
   }
 
   function renderCertifs() {

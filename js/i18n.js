@@ -50,6 +50,7 @@ const I18N = {
     "projects.note_pre": "Je ne présente pas ici l'intégralité de mes projets, et certains travaux - notamment de première année - ont pu se perdre au fil du temps. Pour un aperçu plus complet, n'hésitez pas à consulter",
     "projects.note_link": "mon profil GitHub",
     "projects.note_post": ", également accessible depuis la section Contact.",
+    "projects.soon": "D'autres projets arrivent",
 
     "journey.title": "Expériences professionnelles",
     "journey.lead": "De Reims à Paris, et bientôt à l'international : explorez mon parcours sur le globe.",
@@ -122,6 +123,7 @@ const I18N = {
     "projects.note_pre": "I don't showcase every project here, and some work — first-year work in particular — may have been lost along the way. For a fuller picture, feel free to browse",
     "projects.note_link": "my GitHub profile",
     "projects.note_post": ", also reachable from the Contact section.",
+    "projects.soon": "More projects on the way",
 
     "journey.title": "Professional experience",
     "journey.lead": "From Reims to Paris, and soon abroad: explore my journey on the globe.",
