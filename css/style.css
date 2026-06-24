@@ -388,6 +388,37 @@ section { scroll-margin-top: 90px; }
 .projects-note a { color: var(--accent); font-weight: 600; border-bottom: 1px solid transparent; transition: border-color .25s; }
 .projects-note a:hover { border-color: var(--accent); }
 
+/* Comètes messagères : "d'autres projets arrivent" (renforce la note) */
+.projets > .container { position: relative; z-index: 1; }
+.projets-sky { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.comet {
+  position: absolute; width: 150px; height: 2px; opacity: 0; border-radius: 999px;
+  background: linear-gradient(90deg, rgba(45,91,255,0) 0%, rgba(45,91,255,.42) 65%, rgba(45,91,255,.85) 100%);
+  will-change: transform, left, top, opacity;
+}
+.comet::after {
+  content: ""; position: absolute; right: 0; top: 50%; width: 5px; height: 5px;
+  transform: translate(50%, -50%); border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 12px 2px rgba(45,91,255,.55);
+}
+.comet-1 { animation: comet-1 21s linear infinite; }
+.comet-2 { animation: comet-2 29s linear infinite; animation-delay: 9s; }
+@keyframes comet-1 {
+  0%   { left: 102%; top: 14%; opacity: 0; transform: rotate(170deg) scaleX(.6); }
+  4%   { opacity: .9;  transform: rotate(170deg) scaleX(1); }
+  13%  { opacity: .9; }
+  17%  { left: -18%; top: 31%; opacity: 0; transform: rotate(170deg) scaleX(.7); }
+  100% { left: -18%; top: 31%; opacity: 0; transform: rotate(170deg) scaleX(.7); }
+}
+@keyframes comet-2 {
+  0%   { left: -16%; top: 53%; opacity: 0; transform: rotate(22deg) scaleX(.6); }
+  5%   { opacity: .85; transform: rotate(22deg) scaleX(1); }
+  13%  { opacity: .85; }
+  18%  { left: 70%; top: 95%; opacity: 0; transform: rotate(22deg) scaleX(.7); }
+  100% { left: 70%; top: 95%; opacity: 0; transform: rotate(22deg) scaleX(.7); }
+}
+@media (prefers-reduced-motion: reduce) { .projets-sky { display: none; } }
+
 /* ---------- Timeline stages ---------- */
 .timeline { position: relative; border-left: 2px solid var(--line); margin-left: 6px; }
 .timeline-item { position: relative; padding: 0 0 44px 36px; }
