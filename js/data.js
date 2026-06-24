@@ -34,7 +34,9 @@ const DATA = {
       short: "Le Wagon", year: "2023",
       title: { fr: "Le Wagon - Concepteur Développeur Web", en: "Le Wagon - Web Development Bootcamp" },
       meta:  { fr: "2023 – 2024 · Paris", en: "2023 – 2024 · Paris" },
-      desc:  { fr: "Formation intensive full-stack (Ruby on Rails, JavaScript).", en: "Intensive full-stack bootcamp (Ruby on Rails, JavaScript)." }
+      desc:  { fr: "Formation intensive full-stack (Ruby on Rails, JavaScript).", en: "Intensive full-stack bootcamp (Ruby on Rails, JavaScript)." },
+      file:  "assets/documents/certificate-le-wagon.pdf",
+      fileLabel: { fr: "Voir l'attestation ↓", en: "View certificate ↓" }
     },
     {
       short: "Bac", year: "2020",
