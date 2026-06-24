@@ -248,7 +248,7 @@ const DATA = {
   /* --- Certifications --- */
   certifications: [
     { name: { fr: "IELTS (Anglais)", en: "IELTS (English)" }, org: "IELTS Official", year: { fr: "2024 · valide jusqu'en 2026", en: "2024 · valid until 2026" }, file: "assets/documents/certificate-ielts.pdf" },
-    { name: { fr: "Bootcamp Développement Web", en: "Web Development Bootcamp" }, org: "Le Wagon", year: { fr: "2024", en: "2024" }, file: "assets/documents/certificate-le-wagon.jpg" },
+    { name: { fr: "Bootcamp Développement Web", en: "Web Development Bootcamp" }, org: "Le Wagon", year: { fr: "2024", en: "2024" }, file: "assets/documents/certificate-le-wagon.pdf" },
     { name: { fr: "Permis B", en: "Driving licence (B)" }, org: "Auto-école Abel", year: { fr: "2023", en: "2023" } }
   ],
 

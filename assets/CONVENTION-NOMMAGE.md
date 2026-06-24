@@ -50,7 +50,7 @@ Exemple : `Photo de Profil (1).JPG` ❌ → `profile-antoine.jpg` ✅
 
 **Fichiers documents attendus :**
 `cv-antoine-barthelemy.pdf` · `report-codilee.pdf` · `report-hktech.pdf` ·
-`report-koesio.pdf` · `certificate-ielts.pdf` · `certificate-le-wagon.jpg` ·
+`report-koesio.pdf` · `certificate-ielts.pdf` · `certificate-le-wagon.pdf` ·
 `certificate-but-notes.pdf` · `doc-creation-entreprise.pdf` ·
 `doc-geevent-cahier-des-charges.pdf` · `doc-geevent-scrum.pdf` · `doc-poste-dev.pdf` ·
 `doc-bd-club-voile.pdf` · `doc-bd-supermarche.pdf` · `doc-graphes.pdf` ·
