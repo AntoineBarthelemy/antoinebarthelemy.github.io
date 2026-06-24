@@ -505,7 +505,6 @@
     setFilter(key);  // au retour, « Projets sélectionnés » montre déjà les projets du domaine
     openWarpWith(warpDomainHTML(key), {
       solar: true,
-      backKey: "skills.back",
       onArrive: (octx, ocx, ocy, opt, minWH) => {
         const r = minWH * 0.17;
         const py = ocy - minWH * 0.18;

@@ -36,10 +36,9 @@ const I18N = {
     "skills.see_projects": "Voir les projets",
     "skills.hint_panel": "Survolez ou cliquez une planète pour explorer un domaine.",
     "skills.projects_in_domain": "Projets de ce domaine",
-    "skills.back": "Revenir",
 
     "sky.hint": "✦ Cliquez sur une étoile brillante pour vous y rendre",
-    "sky.back": "Revenir sur Terre",
+    "sky.back": "Retour sur Terre",
 
     "projects.title": "Projets sélectionnés",
     "projects.all": "Tous les projets",
@@ -109,7 +108,6 @@ const I18N = {
     "skills.see_projects": "See the projects",
     "skills.hint_panel": "Hover or click a planet to explore a domain.",
     "skills.projects_in_domain": "Projects in this domain",
-    "skills.back": "Back",
 
     "sky.hint": "✦ Click a bright star to travel to it",
     "sky.back": "Back to Earth",
