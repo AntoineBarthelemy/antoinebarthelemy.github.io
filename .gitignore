@@ -10,3 +10,6 @@ desktop.ini
 # Logs / temp
 *.log
 *.tmp
+
+# Notes de projet privées (gardées en local, hors dépôt public)
+CLAUDE.md
