@@ -238,7 +238,7 @@ const DATA = {
     city: "New York",
     lat: 40.7128, lng: -74.0060,
     title: { fr: "Objectif : travailler aux États-Unis", en: "Goal: working in the United States" },
-    desc: { fr: "Après mon diplôme, je souhaite travailler un an dans la tech aux États-Unis : découvrir d'autres méthodes, d'autres équipes et d'autres façons de penser, avant de poursuivre en école d'ingénieur. L'international, c'est ma façon de grandir.", en: "After graduating, I want to spend a year working in tech in the United States: discovering other methods, other teams and other ways of thinking, before continuing at an engineering school. Going international is how I grow." }
+    desc: { fr: "Après mon diplôme, je souhaite travailler un an dans la tech aux États-Unis : découvrir d'autres méthodes, d'autres équipes et d'autres façons de penser, avant de poursuivre en école d'ingénieur en France. Je pense que les États-Unis sont le meilleur endroit pour quelqu’un dans cette industrie qui a pour ambition d’acquérir une solide expertise.", en: "After graduating, I would like to spend a year working in tech in the United States: discovering other methods, other teams, and other ways of thinking, before continuing at an engineering school in France. I believe the United States is the best place for someone in this industry who aims to acquire solid expertise." }
   },
 
   /* --- Certifications --- */
