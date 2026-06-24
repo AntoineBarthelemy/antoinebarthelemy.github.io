@@ -267,6 +267,12 @@
       { x: 0.28, y: 0.62 }, { x: 0.56, y: 0.55 }, { x: 0.80, y: 0.70 },
       { x: 0.44, y: 0.84 }, { x: 0.70, y: 0.88 }, { x: 0.16, y: 0.80 }
     ];
+    // Sur mobile, le contenu (texte + boutons) occupe la moitié haute :
+    // on relègue les étoiles-formations dans la bande basse pour éviter tout chevauchement.
+    const anchorsNarrow = [
+      { x: 0.24, y: 0.68 }, { x: 0.72, y: 0.66 }, { x: 0.46, y: 0.75 },
+      { x: 0.82, y: 0.72 }, { x: 0.32, y: 0.80 }, { x: 0.60, y: 0.79 }
+    ];
     let w = 0, h = 0, dpr = 1, time = 0, hover = -1, bg = [];
 
     function resize() {
@@ -282,7 +288,11 @@
       }));
     }
 
-    const fpos = (i) => ({ x: anchors[i % anchors.length].x * w, y: anchors[i % anchors.length].y * h });
+    const fpos = (i) => {
+      const a = w <= 720 ? anchorsNarrow : anchors;
+      const an = a[i % a.length];
+      return { x: an.x * w, y: an.y * h };
+    };
 
     function drawFlare(x, y, len, alpha) {
       ctx.strokeStyle = `rgba(255,255,255,${alpha})`;

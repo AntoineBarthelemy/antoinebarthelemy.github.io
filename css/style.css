@@ -249,7 +249,9 @@ section { scroll-margin-top: 90px; }
 .sky-section .constel-chip .chip-star { color: #7ea0ff; }
 .practice-block { padding-top: 70px; }
 @media (max-width: 720px) {
-  .sky-inner { min-height: 560px; padding-top: 70px; padding-bottom: 110px; }
+  /* Le contenu reste en haut ; la hauteur dégage une bande de ciel pour les étoiles. */
+  .sky-inner { min-height: 800px; padding-top: 70px; padding-bottom: 110px; }
+  .sky-hint { position: static; bottom: auto; margin-top: 24px; }
 }
 
 /* Overlay immersif : voyage vers l'étoile */
@@ -575,6 +577,12 @@ section { scroll-margin-top: 90px; }
   .nav a::after { display: none; }
   .burger { display: flex; }
   .brand-name { display: none; }
+  /* Filtre projets : on annule la remontée (astuce desktop) qui chevauchait le bouton. */
+  .filter-info { margin-top: 8px; }
+  /* Plongée domaine : contenu défilable et aligné en haut (sinon les cartes débordent). */
+  .warp-content { overflow-y: auto; }
+  .warp-content.solar { justify-content: flex-start; padding-top: 16vh; padding-bottom: 14vh; }
+  .warp-back { background: rgba(6,7,15,0.82); backdrop-filter: blur(6px); }
 }
 
 /* ---------- Préférence : mouvement réduit ---------- */
