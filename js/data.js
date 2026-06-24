@@ -60,7 +60,7 @@ const DATA = {
       desc: { fr: "Application web progressive (PWA) permettant de faire un don immédiat à une personne sans-abri via un QR code remis par une association. 100 % du don revient au bénéficiaire. Espaces dédiés par association, paiements Stripe Connect, sécurité multi-tenant.", en: "A progressive web app (PWA) enabling instant donations to a homeless person via a QR code provided by a partner charity. 100% goes to the beneficiary. Per-charity dashboards, Stripe Connect payments, multi-tenant security." },
       tech: ["Next.js", "TypeScript", "Supabase", "Stripe Connect", "Tailwind"],
       competences: ["dev", "data", "projet", "sys"],
-      github: "#", demo: "#", image: "assets/images/project-sam.jpg"
+      demo: "https://samapp.net/", image: "assets/images/project-sam.jpg"
     },
     {
       id: "spoffee", year: "2026", featured: true,
@@ -70,7 +70,7 @@ const DATA = {
       desc: { fr: "Marketplace mettant en relation des travailleurs nomades et des cafés proposant des espaces réservables en ligne. Carte interactive, réservation et paiement Stripe, tableau de bord pour les établissements.", en: "A marketplace connecting remote workers with cafés offering bookable workspaces. Interactive map, Stripe payments, owner dashboard." },
       tech: ["Next.js", "React", "TypeScript", "Supabase", "Stripe"],
       competences: ["dev", "data", "projet", "equipe"],
-      github: "#", demo: "#", image: "assets/images/project-spoffee.jpg"
+      demo: "https://www.spoffee.com/", image: "assets/images/project-spoffee.jpg"
     },
     {
       id: "creation-entreprise", year: "2026", featured: false,
