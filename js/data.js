@@ -141,7 +141,7 @@ const DATA = {
       desc: { fr: "Réseau social encourageant le partage d'activités culturelles, en réaction au contenu superficiel des réseaux traditionnels. Contenu instructif et personnalisé.", en: "A social network encouraging the sharing of cultural activities, reacting to the superficial content of mainstream networks. Educational, personalized content." },
       tech: ["Ruby on Rails", "JavaScript", "PostgreSQL"],
       competences: ["dev", "equipe", "projet"],
-      github: "#", demo: "", image: "assets/images/project-culture-jam.jpg"
+      github: "https://github.com/AntoineBarthelemy/Culture-Jam-School", image: "assets/images/project-culture-jam.jpg"
     },
     {
       id: "unbelievably", year: "2024", featured: false,
@@ -151,7 +151,7 @@ const DATA = {
       desc: { fr: "Application inspirée d'Airbnb proposant des activités fantastiques. Réalisée à quatre en méthodologie agile.", en: "An Airbnb-inspired web app offering fantastical activities. Built by a team of four using agile methodology." },
       tech: ["Ruby on Rails", "Stimulus", "Bootstrap", "Git"],
       competences: ["dev", "equipe", "projet"],
-      github: "#", demo: "", image: "assets/images/project-unbelievably.jpg"
+      github: "https://github.com/AntoineBarthelemy/Unbelievably-School", image: "assets/images/project-unbelievably.jpg"
     },
     {
       id: "poste-dev", year: "2024", featured: false,
@@ -172,7 +172,7 @@ const DATA = {
       desc: { fr: "Application connectée à l'API OpenAI : transcription audio (Whisper) puis traitement par GPT-3.5 Turbo à partir d'une URL et de prompts utilisateur. Idée anticipée avant la sortie officielle de la fonctionnalité.", en: "An app connected to the OpenAI API: audio transcription (Whisper) then GPT-3.5 Turbo processing from a URL and user prompts. Anticipated before the feature's official release." },
       tech: ["Python", "OpenAI API", "Whisper", "HTML", "JavaScript"],
       competences: ["dev", "optim"],
-      github: "#", demo: "", image: "assets/images/project-gpt-youtube.jpg"
+      github: "https://github.com/AntoineBarthelemy/Html-Css-Js-Python-ChatGPT-Youtube", image: "assets/images/project-gpt-youtube.jpg"
     },
     {
       id: "zcasino", year: "2023", featured: false,
@@ -182,7 +182,7 @@ const DATA = {
       desc: { fr: "Reproduction du jeu de la roulette en console (POO, exceptions, boucles, modularité), inspirée du livre de Vincent Le Goff.", en: "A console reproduction of roulette (OOP, exceptions, loops, modularity), inspired by Vincent Le Goff's book." },
       tech: ["Python", "POO"],
       competences: ["optim", "dev"],
-      github: "#", demo: "", image: "assets/images/project-zcasino.jpg"
+      github: "https://github.com/AntoineBarthelemy/Python-ZCasino", image: "assets/images/project-zcasino.jpg"
     },
     {
       id: "infra-reseau", year: "2021", featured: false,
