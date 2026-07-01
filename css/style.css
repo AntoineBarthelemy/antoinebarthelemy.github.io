@@ -161,6 +161,13 @@ section { scroll-margin-top: 90px; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22,163,74,.5); } 70% { box-shadow: 0 0 0 9px rgba(22,163,74,0); } 100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); } }
 
 .hero-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.8rem, 8vw, 6rem); line-height: .98; letter-spacing: -.03em; margin-bottom: 16px; }
+/* Surlignage feutre jaune du nom de famille — le texte reste noir, le trait passe derrière, sur le corps des lettres */
+.hero-title .name-mark { color: inherit; background: none; white-space: nowrap; position: relative; }
+.hero-title .name-mark::before {
+  content: ""; position: absolute; z-index: -1;
+  left: -.06em; right: -.06em; top: 42%; bottom: .16em;
+  background: #ffe14d; border-radius: 3px; transform: rotate(-1.4deg);
+}
 .hero-role { font-family: var(--font-display); font-size: clamp(1.2rem,2.6vw,1.7rem); font-weight: 500; color: var(--accent); margin-bottom: 22px; }
 .hero-tagline { font-size: 1.18rem; color: var(--muted); max-width: 520px; margin-bottom: 38px; }
 .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }

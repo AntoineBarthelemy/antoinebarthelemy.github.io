@@ -251,6 +251,16 @@ const DATA = {
   /* --- Recommandations --- */
   recommendations: [
     {
+      initials: "RD",
+      name: "Rémi Deronzier",
+      role: { fr: "Co-fondateur & CEO - Codilee", en: "Co-founder & CEO - Codilee" },
+      relation: { fr: "M'a encadré · Stage Codilee · Juil. 2026", en: "Managed me · Codilee internship · Jul. 2026" },
+      quote: {
+        fr: "J'ai encadré Antoine pendant son stage chez Codilee, où il est intervenu comme développeur web sur deux de nos projets grand public. Ce que j'ai apprécié chez lui, c'est sa curiosité et son envie de comprendre l'écosystème dans son ensemble, au-delà de la simple ligne de code. Il a aussi su monter vite en compétence sur l'IA, notamment avec la méthode BMAD, pour coder plus efficacement. Antoine est sérieux et impliqué. Je le recommande vivement !",
+        en: "I mentored Antoine during his internship at Codilee, where he worked as a web developer on two of our consumer-facing products. What I valued in him is his curiosity and his desire to understand the ecosystem as a whole, beyond the mere line of code. He also ramped up quickly on AI, notably with the BMAD method, to code more efficiently. Antoine is serious and committed. I highly recommend him!"
+      }
+    },
+    {
       initials: "JS",
       name: "Jatin Singh",
       role: { fr: "Software Engineer - Codilee", en: "Software Engineer - Codilee" },
