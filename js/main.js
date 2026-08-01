@@ -564,10 +564,7 @@
       if (!map.has(key)) map.set(key, { city: s.city, lat: s.lat, lng: s.lng, type: "exp", items: [] });
       map.get(key).items.push(s);
     });
-    const locs = Array.from(map.values());
-    const g = DATA.goal;
-    locs.push({ city: g.city, lat: g.lat, lng: g.lng, type: "goal", goal: g, items: [] });
-    return locs;
+    return Array.from(map.values());
   }
 
   function globeEmptyHTML() {
@@ -575,13 +572,6 @@
   }
 
   function globePanelHTML(loc) {
-    if (loc.type === "goal") {
-      return `
-        <div class="gp-flag">★</div>
-        <p class="gp-city">${loc.city} · USA</p>
-        <h3>${tx(loc.goal.title)}</h3>
-        <p class="gp-desc">${tx(loc.goal.desc)}</p>`;
-    }
     const word = loc.items.length > 1 ? t("globe.exp_many") : t("globe.exp_one");
     const items = loc.items.map((s) => `
       <div class="gp-item">
@@ -604,7 +594,7 @@
     const locs = (globeState && globeState.locations) ? globeState.locations : buildLocations();
     const sel = globeState ? globeState.selected : null;
     list.innerHTML = locs.map((l, i) => `
-      <button class="globe-chip ${l.type === "goal" ? "is-goal" : ""} ${sel === i ? "active" : ""}" data-loc="${i}" data-cursor="link">
+      <button class="globe-chip ${sel === i ? "active" : ""}" data-loc="${i}" data-cursor="link">
         <span class="chip-dot"></span>${l.city}
       </button>`).join("");
     list.querySelectorAll(".globe-chip").forEach((btn) => {
@@ -771,20 +761,19 @@
         loc._sx = X; loc._sy = Y; loc._front = front;
         if (!front) return; // marqueurs de la face cachée : invisibles
         const depth = Math.max(0, v.z);
-        const isGoal = loc.type === "goal";
         const sel = globeState.selected === i;
         const r = (sel ? 6 : 4.5) * (0.6 + 0.4 * depth);
 
-        // halo cobalt (objectif ou sélection), avec pulsation douce
-        if (isGoal || sel) {
+        // halo cobalt (sélection), avec pulsation douce
+        if (sel) {
           const pulse = reduce ? 0 : (tick % 140) / 140;
           ctx.beginPath();
           ctx.arc(X, Y, r + 6 + (reduce ? 0 : pulse * 9), 0, Math.PI * 2);
           ctx.fillStyle = `rgba(${accent},${0.18 * (1 - pulse)})`; ctx.fill();
         }
-        // point : cobalt (objectif) ou blanc cerclé d'encre (lisible sur terre comme sur mer)
+        // point : cobalt (sélection) ou blanc cerclé d'encre (lisible sur terre comme sur mer)
         ctx.beginPath(); ctx.arc(X, Y, r, 0, Math.PI * 2);
-        if (isGoal || sel) {
+        if (sel) {
           ctx.fillStyle = `rgba(${accent},${0.65 + 0.35 * depth})`;
           ctx.shadowColor = `rgba(${accent},0.9)`; ctx.shadowBlur = 12; ctx.fill(); ctx.shadowBlur = 0;
           ctx.lineWidth = 1.6; ctx.strokeStyle = "rgba(255,255,255,0.95)"; ctx.stroke();
@@ -794,7 +783,7 @@
         }
 
         // étiquette : pastille claire + texte encre, lisible partout
-        if (sel || hoverIdx === i || isGoal || depth > 0.55) {
+        if (sel || hoverIdx === i || depth > 0.55) {
           ctx.font = "600 12px 'Space Grotesk', system-ui, sans-serif";
           ctx.textAlign = "left"; ctx.textBaseline = "middle";
           const tw = ctx.measureText(loc.city).width;

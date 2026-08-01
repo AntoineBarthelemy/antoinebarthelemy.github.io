@@ -24,7 +24,7 @@ const I18N = {
 
     "about.title": "Concevoir avant de coder.",
     "about.p1": "Passionné d'informatique depuis le collège, je construis mes compétences sur deux axes complémentaires : la formation (les fondements théoriques) et l'expérience de terrain (la pratique). C’est cette combinaison qui me permet de bâtir une compréhension approfondie des systèmes informatiques.",
-    "about.p2": "Mon objectif : devenir expert dans mon domaine. Après mon diplôme, je souhaite travailler un an aux États-Unis dans le secteur de l'informatique, puis poursuivre en école d'ingénieur.",
+    "about.p2": "Mon objectif : devenir expert dans mon domaine. Après mon diplôme, je souhaite poursuivre en école d'ingénieur.",
     "about.p3": "Ce qui me définit, c'est la curiosité et l'envie de grandir au contact des autres : découvrir de nouvelles façons de penser, de nouveaux environnements de travail, de nouvelles cultures.",
 
     "skills.theory_title": "Compétences théoriques",
@@ -51,7 +51,7 @@ const I18N = {
     "projects.soon": "D'autres projets arrivent",
 
     "journey.title": "Expériences professionnelles",
-    "journey.lead": "De Reims à Paris, et bientôt à l'international : explorez mon parcours sur le globe.",
+    "journey.lead": "De Reims à Paris : explorez mon parcours sur le globe.",
     "journey.report": "Télécharger le rapport ↓",
     "journey.certifs_title": "Certifications",
 
@@ -95,7 +95,7 @@ const I18N = {
 
     "about.title": "Design before coding.",
     "about.p1": "Passionate about computer science since middle school, I build my skills on two complementary axes: education (the theoretical foundations) and hands-on experience (the practice). This combination is what lets me build a deep understanding of computer systems.",
-    "about.p2": "My goal: to become an expert in my field. After graduating, I want to work for a year in the United States in the IT sector, then continue at an engineering school.",
+    "about.p2": "My goal: to become an expert in my field. After graduating, I want to continue at an engineering school.",
     "about.p3": "What defines me is curiosity and the drive to grow through others: discovering new ways of thinking, new work environments, new cultures.",
 
     "skills.theory_title": "Theoretical skills",
@@ -122,7 +122,7 @@ const I18N = {
     "projects.soon": "More projects on the way",
 
     "journey.title": "Professional experience",
-    "journey.lead": "From Reims to Paris, and soon abroad: explore my journey on the globe.",
+    "journey.lead": "From Reims to Paris: explore my journey on the globe.",
     "journey.report": "Download report ↓",
     "journey.certifs_title": "Certifications",
 

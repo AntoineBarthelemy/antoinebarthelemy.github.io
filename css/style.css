@@ -500,17 +500,13 @@ section { scroll-margin-top: 90px; }
 .gp-itemdesc { font-size: 14px; color: #333; margin-bottom: 9px; }
 .gp-item .t-report { font-size: 13px; font-weight: 600; color: var(--accent); display: inline-flex; gap: 6px; }
 .gp-item .t-report:hover { text-decoration: underline; }
-.gp-flag { font-size: 1.6rem; color: var(--accent); }
-.gp-desc { font-size: 15px; color: #2a2a2e; }
 
 .globe-list { display: flex; flex-wrap: wrap; gap: 10px; }
 .globe-chip { display: inline-flex; align-items: center; gap: 9px; padding: 9px 17px; border: 1px solid var(--line); border-radius: 999px; font-weight: 600; font-size: 14px; transition: border-color .25s, background .25s, color .25s, transform .25s; }
 .globe-chip .chip-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ink); transition: background .25s; }
-.globe-chip.is-goal .chip-dot { background: var(--accent); }
 .globe-chip:hover { border-color: var(--ink); transform: translateY(-2px); }
 .globe-chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
 .globe-chip.active .chip-dot { background: #fff; }
-.globe-chip.is-goal.active { background: var(--accent); border-color: var(--accent); }
 
 @media (max-width: 900px) {
   .globe-wrap { grid-template-columns: 1fr; gap: 24px; }

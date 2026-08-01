@@ -233,14 +233,6 @@ const DATA = {
     }
   ],
 
-  /* --- Objectif international (marqueur "but" sur le globe) --- */
-  goal: {
-    city: "New York",
-    lat: 40.7128, lng: -74.0060,
-    title: { fr: "Objectif : travailler aux États-Unis", en: "Goal: working in the United States" },
-    desc: { fr: "Après mon diplôme, je souhaite travailler un an dans la tech aux États-Unis : découvrir d'autres méthodes, d'autres équipes et d'autres façons de penser, avant de poursuivre en école d'ingénieur en France. Je pense que les États-Unis sont le meilleur endroit pour quelqu’un dans cette industrie qui a pour ambition d’acquérir une solide expertise.", en: "After graduating, I would like to spend a year working in tech in the United States: discovering other methods, other teams, and other ways of thinking, before continuing at an engineering school in France. I believe the United States is the best place for someone in this industry who aims to acquire solid expertise." }
-  },
-
   /* --- Certifications --- */
   certifications: [
     { name: { fr: "IELTS (Anglais)", en: "IELTS (English)" }, org: "IELTS Official", year: { fr: "2024 · valide jusqu'en 2026", en: "2024 · valid until 2026" }, file: "assets/documents/certificate-ielts.pdf" },
