@@ -13,7 +13,7 @@ const I18N = {
     "nav.reco": "Recommandations",
     "nav.contact": "Contact",
 
-    "hero.status": "Disponible pour une alternance · Sept. 2026",
+    "hero.status": "Disponible pour une alternance · Sept./Oct. 2026",
     "hero.role": "Analyste fonctionnel & Produit",
     "hero.tagline": "Je traduis les besoins métier en solutions logicielles claires, optimisées et utiles.",
     "hero.cta_projects": "Voir les projets",
@@ -84,7 +84,7 @@ const I18N = {
     "nav.reco": "Recommendations",
     "nav.contact": "Contact",
 
-    "hero.status": "Available for a work-study program · Sept. 2026",
+    "hero.status": "Available for a work-study program · Sep./Oct. 2026",
     "hero.role": "Functional & Product Analyst",
     "hero.tagline": "I turn business needs into clear, optimized and useful software solutions.",
     "hero.cta_projects": "View projects",
